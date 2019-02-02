@@ -28,3 +28,4 @@ jobs:
               docker push registry.gitlab.com/onikongo/traindevops01:latest
               docker push registry.gitlab.com/onikongo/traindevops01:${VER}
       - run: echo Done
+      
