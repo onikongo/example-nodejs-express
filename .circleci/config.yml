@@ -17,3 +17,32 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: echo Done
+
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8.11.1-stretch
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback 
+            - v1-dependencies-
+      - run: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: docker login $URL -u $USER_DOCKER  -p $PASSWORD_DOCKER
+      - run:
+          name: "Build Docker"
+          command:  |
+              cp Dockerfile.production  Dockerfile
+              docker build -t registry.gitlab.com/onikongo/traindevops01:latest .
+              docker build -t registry.gitlab.com/onikongo/traindevops01:${VER} .
+              docker push registry.gitlab.com/onikongo/traindevops01:latest
+              docker push registry.gitlab.com/onikongo/traindevops01:${VER}
+      - run: echo Done
