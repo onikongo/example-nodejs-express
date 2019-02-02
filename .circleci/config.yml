@@ -27,5 +27,17 @@ jobs:
               docker build -t onikingkong/traindevops01:${VER} .
               docker push onikingkong/traindevops01:latest
               docker push onikingkong/traindevops01:${VER}
+      - run:
+          name: "Deploy Docker"
+          command:  |
+              docker run --rm -it \
+              -e CATTLE_ACCESS_KEY="$CATTLE_ACCESS_KEY" \
+              -e CATTLE_SECRET_KEY="$CATTLE_SECRET_KEY" \
+              -e CATTLE_URL="$CATTLE_URL" \
+              etlweather/gaucho upgrade $SEVICE_ID \
+              --imageUuid 'registry.gitlab.com/tawai.global/nodedemocircle-ci:latest' \
+              --batch_size 1 --start_first \
+              --auto_complete --time 600 \
+              /
       - run: echo Done
 
