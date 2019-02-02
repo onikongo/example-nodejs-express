@@ -18,7 +18,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm test
       - setup_remote_docker
-      - run: docker login $URL -u onikongo  -p 35799kong
+      - run: docker login $URL -u $USER_DOCKER  -p $PASSWORD_DOCKER
       - run:
           name: "Build Docker"
           command:  |
