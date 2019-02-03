@@ -36,6 +36,8 @@ jobs:
     docker:
       - image: circleci/node:8.11.1-stretch
     working_directory: ~/repo
+    steps: 
+      
   deploy:
     docker:
       - image: circleci/node:8.11.1-stretch
