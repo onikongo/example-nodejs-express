@@ -16,7 +16,6 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npm test
       - setup_remote_docker
       - run: docker login -u $USER_DOCKER  -p $PASSWORD_DOCKER
       - run:
@@ -27,7 +26,12 @@ jobs:
               docker build -t onikingkong/traindevops01:${VER} .
               docker push onikingkong/traindevops01:latest
               docker push onikingkong/traindevops01:${VER}
-      - run:
+  test: 
+     - run: npm test
+  ship:
+
+  deploy:
+     - run:
           name: "Deploy Docker"
           command:  |
               docker run --rm -it \
@@ -38,6 +42,21 @@ jobs:
               --imageUuid 'docker:onikingkong/traindevops01:latest' \
               --batch_size 1 --start_first \
               --auto_complete --timeout 600 \
-              /
-      - run: echo Done  
-
+      - run: echo Done 
+workflows:
+  version2:
+  build_test_ship_deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - ship:
+          requires:
+            - build
+            - test 
+      - deploy:
+          requires:
+            - build
+            - test
+            - ship
