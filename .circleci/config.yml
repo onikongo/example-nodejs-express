@@ -33,7 +33,9 @@ jobs:
     steps: 
       - run: npm test
   ship:
-
+    docker:
+      - image: circleci/node:8.11.1-stretch
+    working_directory: ~/repo
   deploy:
     docker:
       - image: circleci/node:8.11.1-stretch
