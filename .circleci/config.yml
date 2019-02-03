@@ -63,7 +63,7 @@ jobs:
               -e CATTLE_ACCESS_KEY="$CATTLE_ACCESS_KEY" \
               -e CATTLE_SECRET_KEY="$CATTLE_SECRET_KEY" \
               -e CATTLE_URL="$CATTLE_URL" \
-              etlweather/gaucho upgrade $RANCUER_EXAMPLE_NODEJS \
+              etlweather/gaucho upgrade $SEVICE_ID \
               --imageUuid 'docker:onikingkong/traindevops01:latest' \
               --batch_size 3 --start_first \
               --auto_complete --timeout 600
