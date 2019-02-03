@@ -26,11 +26,13 @@ jobs:
               docker build -t onikingkong/traindevops01:${VER} .
               docker push onikingkong/traindevops01:latest
               docker push onikingkong/traindevops01:${VER}
-  test: 
+  test:
+    steps: 
      - run: npm test
   ship:
 
   deploy:
+    steps:
      - run:
           name: "Deploy Docker"
           command:  |
